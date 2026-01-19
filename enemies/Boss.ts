@@ -1,4 +1,4 @@
-import { Character } from "../adventurers/Character.js";
+import { Character } from "../adventurers/Character.ts";
 
 export class Boss extends Character {
 
@@ -7,7 +7,7 @@ export class Boss extends Character {
         attack: number,
         defense: number,
         speed: number,
-        maxHp: number
+        maxHp: number,
     ) {
         super(name, attack, defense, speed, maxHp);
     }
@@ -20,7 +20,7 @@ export class Boss extends Character {
 
         if (roll <= 20) {
             return alive.reduce((low, cur) =>
-                cur.currentHp < low.currentHp ? cur : low
+                cur.getCurrentHp() < low.getCurrentHp() ? cur : low
             );
         }
 

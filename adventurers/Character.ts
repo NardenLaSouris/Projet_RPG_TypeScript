@@ -6,6 +6,10 @@ export class Character {
     protected maxHp: number;
     protected currentHp: number;
 
+    getCurrentHp(): number {
+        return this.currentHp;
+    }
+
     constructor(
         name: string,
         attack: number,
