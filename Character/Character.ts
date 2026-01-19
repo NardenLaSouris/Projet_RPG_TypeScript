@@ -12,18 +12,19 @@ export class Character {
         defense: number,
         speed: number,
         maxHp: number,
-        currentHp: number
-    ) {
+        ) {
         this.name = name;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
         this.maxHp = maxHp;
         this.currentHp = maxHp;
-        this.currentHp = currentHp;
     }
 
     isAlive(): boolean {
+        if (this.currentHp <= 0) {
+            console.log(`${this.name} died.`);
+        }
         return this.currentHp > 0;
     }
 
