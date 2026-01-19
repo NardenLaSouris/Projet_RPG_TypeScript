@@ -5,9 +5,22 @@ export class Character {
     protected speed: number;
     protected maxHp: number;
     protected currentHp: number;
+    protected weapon: string;
 
     getCurrentHp(): number {
         return this.currentHp;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+
+    getDefense(): number {
+        return this.defense;
+    }
+
+    setCurrentHp(value: number) {
+        this.currentHp = value;
     }
 
     constructor(
@@ -16,6 +29,7 @@ export class Character {
         defense: number,
         speed: number,
         maxHp: number,
+        weapon: string,
     ) {
         this.name = name;
         this.attack = attack;
@@ -23,6 +37,7 @@ export class Character {
         this.speed = speed;
         this.maxHp = maxHp;
         this.currentHp = maxHp;
+        this.weapon = weapon;
     }
 
     isAlive(): boolean {

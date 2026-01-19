@@ -1,6 +1,6 @@
 import { Character } from "../adventurers/Character.ts";
 
-export class Boss extends Character {
+export class Monster extends Character {
 
     constructor(
         name: string,
@@ -8,8 +8,9 @@ export class Boss extends Character {
         defense: number,
         speed: number,
         maxHp: number,
+        weapon: string,
     ) {
-        super(name, attack, defense, speed, maxHp);
+        super(name, attack, defense, speed, maxHp, weapon);
     }
 
     chooseTarget(adventurers: Character[]): Character | null {
