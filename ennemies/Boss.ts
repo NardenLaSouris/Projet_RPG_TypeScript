@@ -1,7 +1,14 @@
 // Boss.ts
 import { Character } from "../adventurers/Character.ts";
 
-export class Boss extends Character {
+export class Boss {
+   
+    protected name: string;
+    protected attack: number;
+    protected defense: number;
+    protected speed: number;
+    protected maxHp: number;
+    protected currentHp: number;
 
     constructor(
         name: string,
@@ -9,9 +16,13 @@ export class Boss extends Character {
         defense: number,
         speed: number,
         maxHp: number,
-        weapon: string,
     ) {
-        super(name, attack, defense, speed, maxHp, weapon);
+        this.name = name;
+        this.attack = attack;
+        this.defense = defense;
+        this.speed = speed;
+        this.maxHp = maxHp;
+        this.currentHp = maxHp;
     }
 
     chooseTarget(adventurers: Character[]): Character[] {
@@ -38,7 +49,7 @@ export class Boss extends Character {
         targets.forEach((target: Character) => {
             const damage = Math.max(this.attack - target.getDefense(), 0); // plus de rouge
             target.setCurrentHp(target.getCurrentHp() - damage); 
-            console.log(`${this.getName()} attacks ${target.getName()} for ${damage} damage!`);
+            console.log(`${this.name} attacks ${target.getName()} for ${damage} damage!`);
         });
     }
 
