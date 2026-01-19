@@ -54,7 +54,7 @@ export class Boss {
         const targets = this.chooseTarget(adventurers);
 
         targets.forEach((target: Character) => {
-            const damage = Math.max(this.attack - target.getDefense(), 0); // plus de rouge
+            const damage = Math.max(this.attack - target.getDefense(), 0);
             target.setCurrentHp(target.getCurrentHp() - damage); 
             console.log(`${this.name} attacks ${target.getName()} for ${damage} damage!`);
         });
