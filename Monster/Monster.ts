@@ -1,6 +1,13 @@
 import { Character } from "../adventurers/Character.ts";
 
-export class Monster extends Character {
+export class Monster {
+   
+    protected name: string;
+    protected attack: number;
+    protected defense: number;
+    protected speed: number;
+    protected maxHp: number;
+    protected currentHp: number;
 
     constructor(
         name: string,
@@ -8,9 +15,20 @@ export class Monster extends Character {
         defense: number,
         speed: number,
         maxHp: number,
-        weapon: string,
     ) {
-        super(name, attack, defense, speed, maxHp, weapon);
+        this.name = name;
+        this.attack = attack;
+        this.defense = defense;
+        this.speed = speed;
+        this.maxHp = maxHp;
+        this.currentHp = maxHp;
+    }
+
+    isAlive(): boolean {
+        if (this.currentHp <= 0) {
+            console.error(`${this.name} died in atrocious suffering, his guts emptying on the ground!`);
+        }    
+        return this.currentHp > 0;
     }
 
     chooseTarget(adventurers: Character[]): Character | null {

@@ -25,6 +25,13 @@ export class Boss {
         this.currentHp = maxHp;
     }
 
+    isAlive(): boolean {
+        if (this.currentHp <= 0) {
+            console.error(`${this.name} died in atrocious suffering, his guts emptying on the ground!`);
+        }    
+        return this.currentHp > 0;
+    }
+
     chooseTarget(adventurers: Character[]): Character[] {
         const alive = adventurers.filter(a => a.isAlive());
         if (alive.length === 0) return [];
