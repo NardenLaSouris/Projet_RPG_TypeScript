@@ -5,6 +5,7 @@ export class Character {
     protected speed: number;
     protected maxHp: number;
     protected currentHp: number;
+    private weapon : string;
 
     getCurrentHp(): number {
         return this.currentHp;
@@ -16,6 +17,7 @@ export class Character {
         defense: number,
         speed: number,
         maxHp: number,
+        weapon: string,
     ) {
         this.name = name;
         this.attack = attack;
@@ -23,6 +25,7 @@ export class Character {
         this.speed = speed;
         this.maxHp = maxHp;
         this.currentHp = maxHp;
+        this.weapon = weapon;
     }
 
     isAlive(): boolean {

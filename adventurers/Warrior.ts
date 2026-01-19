@@ -2,6 +2,6 @@ import { Character } from "./Character.ts";
 
 export class Warrior extends Character {
     constructor(name: string) {
-        super(name, 10, 3, 12, 80);
+        super(name, 10, 3, 12, 110, "heavy sword");
     }
 }
