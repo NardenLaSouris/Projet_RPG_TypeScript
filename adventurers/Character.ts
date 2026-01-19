@@ -5,7 +5,11 @@ export class Character {
     protected speed: number;
     protected maxHp: number;
     protected currentHp: number;
+<<<<<<< HEAD
     protected weapon: string;
+=======
+    private weapon : string;
+>>>>>>> 6fc9224e2c5be1a945232040f24d25403254f08a
 
     getCurrentHp(): number {
         return this.currentHp;
