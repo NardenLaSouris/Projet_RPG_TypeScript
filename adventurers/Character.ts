@@ -1,4 +1,7 @@
 export class Character {
+    private static readonly CRIT_CHANCE = 0.3;
+    private static readonly CRIT_MULTIPLIER = 2;
+
     protected name: string;
     protected attack: number;
     protected defense: number;
@@ -51,10 +54,21 @@ export class Character {
             this.currentHp = Math.max(0, this.currentHp - dmg);
             return before - this.currentHp;
     }
-    attackTarget(target: Character): number {
-        if (!this.isAlive()) return 0;
-            const raw = this.attack - target.defense;
-                return target.takeDamage(raw);
+    attackTarget(target: Character): { damage: number; isCritical: boolean } {
+        if (!this.isAlive()) {
+            return { damage: 0, isCritical: false };
+        }
+
+            const baseDamage = Math.max(this.attack - target.getDefense(), 0);
+            const isCritical = Math.random() < Character.CRIT_CHANCE;
+            const finalDamage = isCritical
+                ? baseDamage * Character.CRIT_MULTIPLIER 
+                : baseDamage;
+            const damageDealt = target.takeDamage(finalDamage);
+                return { 
+                    damage: damageDealt,
+                    isCritical,
+                };
     }
 
     heal(percent: number): number {
