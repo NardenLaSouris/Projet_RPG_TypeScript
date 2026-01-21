@@ -54,11 +54,11 @@ export class Character {
             this.currentHp = Math.max(0, this.currentHp - dmg);
             return before - this.currentHp;
     }
+
     attackTarget(target: Character): { damage: number; isCritical: boolean } {
         if (!this.isAlive()) {
             return { damage: 0, isCritical: false };
         }
-
             const baseDamage = Math.max(this.attack - target.getDefense(), 0);
             const isCritical = Math.random() < Character.CRIT_CHANCE;
             const finalDamage = isCritical
