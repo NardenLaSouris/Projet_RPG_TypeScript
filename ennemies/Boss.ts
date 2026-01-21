@@ -39,14 +39,12 @@ export class Boss {
         const roll = Math.random() * 100;
 
         if (roll <= 30) {
-            // 30% : attaque de zone → tous les vivants
             return alive;
         } else {
-            // 70% : attaque normale → cible unique (plus faible en PV)
             const target = alive.reduce((low, cur) =>
                 cur.getCurrentHp() < low.getCurrentHp() ? cur : low
             );
-            return [target]; // toujours un tableau pour homogénéité
+            return [target]; 
         }
     }
 
