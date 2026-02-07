@@ -121,8 +121,8 @@ export class Fight {
   private logTeams(): void {
     const playerLines = this.teamA.map(c => this.formatStatusLine(c));
     const enemyLines = this.teamB.map(c => this.formatStatusLine(c));
-    this.printBox("Joueurs", playerLines, Fight.COLOR_YELLOW);
-    this.printBox("Ennemis", enemyLines, Fight.COLOR_YELLOW);
+    this.printBox("Joueurs", playerLines, Fight.COLOR_BLUE);
+    this.printBox("Ennemis", enemyLines, Fight.COLOR_RED);
   }
 
   private announceEnemies(): void {

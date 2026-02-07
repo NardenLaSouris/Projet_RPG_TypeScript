@@ -71,7 +71,7 @@ export class GameManager {
     console.log("|              EQUIPE CHOISIE              |");
     console.log("+--------------------------------------------+");
     team.forEach(member => {
-      console.log(`- ${member.getName()}`);
+      console.log(`\x1b[34m- ${member.getName()}\x1b[0m`);
     });
 
     return team;
