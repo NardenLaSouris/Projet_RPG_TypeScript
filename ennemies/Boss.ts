@@ -1,60 +1,57 @@
-// Boss.ts
 import { Character } from "../adventurers/Character.ts";
+import type { Fight } from "../fight.ts";
 
-export class Boss {
-   
-    protected name: string;
-    protected attack: number;
-    protected defense: number;
-    protected speed: number;
-    protected maxHp: number;
-    protected currentHp: number;
-
+export class Boss extends Character {
     constructor(
         name: string,
         attack: number,
         defense: number,
         speed: number,
         maxHp: number,
+        weapon = "Claws",
     ) {
-        this.name = name;
-        this.attack = attack;
-        this.defense = defense;
-        this.speed = speed;
-        this.maxHp = maxHp;
-        this.currentHp = maxHp;
+        super(name, attack, defense, speed, maxHp, weapon);
     }
 
-    isAlive(): boolean {
+    override isAlive(): boolean {
         if (this.currentHp <= 0) {
             console.error(`${this.name} died in atrocious suffering, his guts emptying on the ground!`);
         }    
         return this.currentHp > 0;
     }
 
-    chooseTarget(adventurers: Character[]): Character[] {
+    chooseTarget(adventurers: Character[]): Character | null {
         const alive = adventurers.filter(a => a.isAlive());
-        if (alive.length === 0) return [];
+        if (alive.length === 0) return null;
 
         const roll = Math.random() * 100;
-
-        if (roll <= 30) {
-            return alive;
-        } else {
-            const target = alive.reduce((low, cur) =>
+        if (roll <= 20) {
+            return alive.reduce((low, cur) =>
                 cur.getCurrentHp() < low.getCurrentHp() ? cur : low
             );
-            return [target]; 
         }
+
+        return alive[Math.floor(Math.random() * alive.length)];
     }
 
-    performAttack(adventurers: Character[]): void {
-        const targets = this.chooseTarget(adventurers);
+    override playTurn(fight: Fight): void {
+        const opponents = fight.getOpponents(this);
+        if (opponents.length === 0) return;
 
-        targets.forEach((target: Character) => {
-            const damage = Math.max(this.attack - target.getDefense(), 0);
-            target.setCurrentHp(target.getCurrentHp() - damage); 
-            console.log(`${this.name} attacks ${target.getName()} for ${damage} damage!`);
+        const roll = Math.random() * 100;
+        if (roll <= 70) {
+            const target = this.chooseTarget(opponents);
+            if (!target) return;
+            const result = this.attackTarget(target);
+            fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+            return;
+        }
+
+        opponents.forEach(target => {
+            const baseDamage = this.getPhysicalDamageAgainst(target);
+            const damage = Math.floor(baseDamage * 0.4);
+            const dealt = target.takeDamage(damage);
+            fight.logAttack(this, target, dealt, false, "physique");
         });
     }
 

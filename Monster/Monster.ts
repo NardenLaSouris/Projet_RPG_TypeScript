@@ -1,13 +1,8 @@
 import { Character } from "../adventurers/Character.ts";
+import type { Fight } from "../fight.ts";
 
-export class Monster {
-   
-    protected name: string;
-    protected attack: number;
-    protected defense: number;
-    protected speed: number;
-    protected maxHp: number;
-    protected currentHp: number;
+export class Monster extends Character {
+    private attackType: "physique" | "magique";
 
     constructor(
         name: string,
@@ -15,16 +10,14 @@ export class Monster {
         defense: number,
         speed: number,
         maxHp: number,
+        weapon = "Claws",
+        attackType: "physique" | "magique" = "physique",
     ) {
-        this.name = name;
-        this.attack = attack;
-        this.defense = defense;
-        this.speed = speed;
-        this.maxHp = maxHp;
-        this.currentHp = maxHp;
+        super(name, attack, defense, speed, maxHp, weapon);
+        this.attackType = attackType;
     }
 
-    isAlive(): boolean {
+    override isAlive(): boolean {
         if (this.currentHp <= 0) {
             console.error(`${this.name} died in atrocious suffering, his guts emptying on the ground!`);
         }    
@@ -44,5 +37,20 @@ export class Monster {
         }
 
         return alive[Math.floor(Math.random() * alive.length)];
+    }
+
+    override playTurn(fight: Fight): void {
+        const opponents = fight.getOpponents(this);
+        const target = this.chooseTarget(opponents);
+        if (!target) return;
+
+        if (this.attackType === "magique") {
+            const result = this.attackTargetMagical(target);
+            fight.logAttack(this, target, result.damage, false, "magique");
+            return;
+        }
+
+        const result = this.attackTarget(target);
+        fight.logAttack(this, target, result.damage, result.isCritical, "physique");
     }
 }
