@@ -6,7 +6,7 @@ import { Priest } from "./adventurers/Priest.ts";
 import { Thief } from "./adventurers/Thief.ts";
 import { CombatRoom } from "./CombatRoom.ts";
 import { ChestRoom } from "./ChestRoom.ts";
-import { Boss } from "./ennemies/Boss.ts";
+import { Boss } from "./enemies/Boss.ts";
 import { Fight } from "./fight.ts";
 import { Menu } from "./Menu.ts";
 import { Character } from "./adventurers/Character.ts";

@@ -66,7 +66,7 @@ Prérequis : Deno installé (terminal interactif requis pour les menus).
 
 ```bash
 cd Projet_RPG_TypeScript
-deno run main.ts
+deno run src/main.ts
 ```
 
 ## Contrôles
@@ -99,14 +99,42 @@ deno run main.ts
 
 ## Structure du projet
 
-- main.ts : point d'entrée
-- GameManager.ts : déroulement global de la partie
-- fight.ts : boucle de combat
-- Room.ts / CombatRoom.ts / ChestRoom.ts : salles
-- Inventory.ts / Chest.ts : gestion des objets
-- adventurers/* : classes d'aventuriers
-- Monster/* : monstres standards
-- ennemies/* : boss
+```
+Projet_RPG_TypeScript/
+├── README.md
+├── docs/
+│   └── Terminal.png   # capture d'écran du terminal
+└── src/
+   ├── main.ts            # point d'entrée
+   ├── GameManager.ts     # déroulement global de la partie
+   ├── fight.ts           # boucle de combat
+   ├── Room.ts            # base des salles
+   ├── CombatRoom.ts      # salle de combat
+   ├── ChestRoom.ts       # salle de coffre
+   ├── Chest.ts           # logique d'ouverture des coffres
+   ├── Inventory.ts       # inventaire partagé
+   ├── Menu.ts            # menus interactifs
+   ├── adventurers/       # classes d'aventuriers
+   │   ├── Character.ts
+   │   ├── Warrior.ts
+   │   ├── Mage.ts
+   │   ├── Paladin.ts
+   │   ├── Barbarian.ts
+   │   ├── Priest.ts
+   │   └── Thief.ts
+   ├── monsters/          # monstres standards
+   │   ├── Monster.ts
+   │   ├── Goblin.ts
+   │   ├── Wolf.ts
+   │   ├── Bandit.ts
+   │   ├── Chimera.ts
+   │   └── Ahrimann.ts
+   └── enemies/           # boss
+      ├── Boss.ts
+      ├── Behemoth.ts
+      ├── Dragon.ts
+      └── Leviathan.ts
+```
 
 ## Astuces
 

@@ -1,10 +1,10 @@
 import { Room } from "./Room.ts";
 import { Fight } from "./fight.ts";
-import { Goblin } from "./Monster/Goblin.ts";
-import { Wolf } from "./Monster/Wolf.ts";
-import { Bandit } from "./Monster/Bandit.ts";
-import { Chimera } from "./Monster/Chimera.ts";
-import { Ahrimann } from "./Monster/Ahrimann.ts";
+import { Goblin } from "./monsters/Goblin.ts";
+import { Wolf } from "./monsters/Wolf.ts";
+import { Bandit } from "./monsters/Bandit.ts";
+import { Chimera } from "./monsters/Chimera.ts";
+import { Ahrimann } from "./monsters/Ahrimann.ts";
 import { Character } from "./adventurers/Character.ts";
 
 export class CombatRoom extends Room {
