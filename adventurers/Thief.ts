@@ -9,11 +9,11 @@ export class Thief extends Character {
     }
 
     override playTurn(fight: Fight): void {
-        const menu = new Menu(`Tour de ${this.getName()} - Choisis une action:`, [
-            "Attaquer",
-            "Voler",
-            "Objet",
-        ]);
+        const menu = new Menu(
+            `Tour de ${this.getName()} - Choisis une action:`,
+            ["Attaquer", "Voler", "Objet"],
+            Menu.COLOR_BLUE,
+        );
 
         while (true) {
             const choice = menu.ask();

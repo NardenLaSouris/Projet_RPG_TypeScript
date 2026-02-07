@@ -160,7 +160,7 @@ export class Character {
             const value = c.isAlive() ? c.getCurrentHp() : 0;
             return `${c.getName()} (${status}: ${value})`;
         });
-        const index = new Menu(title, options).ask();
+        const index = new Menu(title, options, Menu.COLOR_BLUE).ask();
         return list[index] ?? null;
     }
 
@@ -181,7 +181,7 @@ export class Character {
 
         const options = available.map(item => `${item} x${inventory.getCount(item)}`);
         options.push("Retour");
-        const choice = new Menu("Choisis un objet:", options).ask();
+        const choice = new Menu("Choisis un objet:", options, Menu.COLOR_BLUE).ask();
         if (choice === options.length - 1) return false;
 
         const item = available[choice];

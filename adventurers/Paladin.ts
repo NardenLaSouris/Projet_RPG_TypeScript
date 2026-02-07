@@ -8,11 +8,11 @@ export class Paladin extends Character {
     }
 
     override playTurn(fight: Fight): void {
-        const menu = new Menu(`Tour de ${this.getName()} - Choisis une action:`, [
-            "Attaquer",
-            "Attaque sainte (zone)",
-            "Objet",
-        ]);
+        const menu = new Menu(
+            `Tour de ${this.getName()} - Choisis une action:`,
+            ["Attaquer", "Attaque sainte (zone)", "Objet"],
+            Menu.COLOR_BLUE,
+        );
 
         while (true) {
             const choice = menu.ask();

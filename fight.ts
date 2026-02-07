@@ -3,6 +3,12 @@ import { Character } from "./adventurers/Character.ts";
 export class Fight {
   private static readonly BOX_WIDTH = 60;
   private static readonly BAR_WIDTH = 18;
+  private static readonly COLOR_RESET = "\x1b[0m";
+  private static readonly COLOR_YELLOW = "\x1b[33m";
+  private static readonly COLOR_BLUE = "\x1b[34m";
+  private static readonly COLOR_RED = "\x1b[31m";
+  private static readonly COLOR_GREEN = "\x1b[32m";
+  private static readonly COLOR_CYAN = "\x1b[36m";
   private order: Character[];
   private index = 0;
   private turnCount = 1;
@@ -12,7 +18,7 @@ export class Fight {
   }
 
   async start(): Promise<void> {
-    this.printBox("Combat", ["Debut du combat"]);
+    this.printBox("Combat", ["Debut du combat"], Fight.COLOR_YELLOW);
     this.announceEnemies();
     this.logTeams();
     while (!this.isOver()) {
@@ -27,7 +33,7 @@ export class Fight {
       }
       this.index = (this.index + 1) % this.order.length;
     }
-    this.printBox("Combat", ["Combat termine"]);
+    this.printBox("Combat", ["Combat termine"], Fight.COLOR_YELLOW);
   }
 
   isOver(): boolean {
@@ -61,45 +67,67 @@ export class Fight {
     type: "physique" | "magique",
   ): void {
     const critText = isCritical ? " [CRIT]" : "";
+    const attackerColor = this.isPlayer(attacker) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
+    const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
+    const typeColor = type === "magique" ? Fight.COLOR_CYAN : Fight.COLOR_YELLOW;
+    const critColor = isCritical ? Fight.COLOR_RED : Fight.COLOR_RESET;
     console.log(
-      `> ${attacker.getName()} -> ${target.getName()} : ${damage} degats ${type}${critText}`,
+      `> ${attackerColor}${attacker.getName()}${Fight.COLOR_RESET} -> ` +
+        `${targetColor}${target.getName()}${Fight.COLOR_RESET} : ` +
+        `${damage} degats ${typeColor}${type}${Fight.COLOR_RESET}${critColor}${critText}${Fight.COLOR_RESET}`,
     );
     const koText = target.isAlive() ? "" : " [KO]";
-    console.log(`  ${target.getName()} : ${target.getCurrentHp()} PV${koText}`);
+    console.log(
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} PV${koText}`,
+    );
   }
 
   logHeal(source: string, target: Character, amount: number): void {
-    console.log(`> ${source} soigne ${target.getName()} de ${amount} PV`);
-    console.log(`  ${target.getName()} : ${target.getCurrentHp()} PV`);
+    const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
+    console.log(
+      `> ${Fight.COLOR_GREEN}${source}${Fight.COLOR_RESET} soigne ` +
+        `${targetColor}${target.getName()}${Fight.COLOR_RESET} de ${amount} PV`,
+    );
+    console.log(
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} PV`,
+    );
   }
 
   logMp(target: Character, amount: number): void {
-    console.log(`> ${target.getName()} recupere ${amount} PM`);
-    console.log(`  ${target.getName()} : ${target.getCurrentMp()} PM`);
+    const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
+    console.log(
+      `> ${targetColor}${target.getName()}${Fight.COLOR_RESET} recupere ${amount} PM`,
+    );
+    console.log(
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentMp()} PM`,
+    );
   }
 
   logMessage(message: string): void {
-    console.log(`> ${message}`);
+    console.log(`> ${Fight.COLOR_YELLOW}${message}${Fight.COLOR_RESET}`);
   }
 
   private logTurnStart(actor: Character): void {
     const side = this.teamA.includes(actor) ? "Joueur" : "Ennemi";
+    const color = this.teamA.includes(actor) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
     console.log("");
-    console.log("-".repeat(Fight.BOX_WIDTH));
-    console.log(`Tour ${this.turnCount} : ${actor.getName()} (${side})`);
+    console.log(color + "-".repeat(Fight.BOX_WIDTH) + Fight.COLOR_RESET);
+    console.log(
+      color + `Tour ${this.turnCount} : ${actor.getName()} (${side})` + Fight.COLOR_RESET,
+    );
     this.turnCount += 1;
   }
 
   private logTeams(): void {
     const playerLines = this.teamA.map(c => this.formatStatusLine(c));
     const enemyLines = this.teamB.map(c => this.formatStatusLine(c));
-    this.printBox("Joueurs", playerLines);
-    this.printBox("Ennemis", enemyLines);
+    this.printBox("Joueurs", playerLines, Fight.COLOR_YELLOW);
+    this.printBox("Ennemis", enemyLines, Fight.COLOR_YELLOW);
   }
 
   private announceEnemies(): void {
     const names = this.teamB.map(c => c.getName());
-    this.printBox("Rencontre", [`Ennemis: ${names.join(", ")}`]);
+    this.printBox("Rencontre", [`Ennemis: ${names.join(", ")}`], Fight.COLOR_YELLOW);
   }
 
   private delay(ms: number): Promise<void> {
@@ -124,17 +152,17 @@ export class Fight {
     return `[${"#".repeat(filled)}${"-".repeat(empty)}]`;
   }
 
-  private printBox(title: string, lines: string[]): void {
+  private printBox(title: string, lines: string[], color: string): void {
     const width = Fight.BOX_WIDTH;
     const top = `+${"-".repeat(width - 2)}+`;
-    console.log(top);
+    console.log(color + top + Fight.COLOR_RESET);
     const titleLine = this.padLine(` ${title} `, width - 2);
-    console.log(`|${titleLine}|`);
-    console.log(`+${"-".repeat(width - 2)}+`);
+    console.log(color + `|${titleLine}|` + Fight.COLOR_RESET);
+    console.log(color + `+${"-".repeat(width - 2)}+` + Fight.COLOR_RESET);
     lines.forEach(line => {
-      console.log(`|${this.padLine(` ${line}`, width - 2)}|`);
+      console.log(color + `|${this.padLine(` ${line}`, width - 2)}|` + Fight.COLOR_RESET);
     });
-    console.log(top);
+    console.log(color + top + Fight.COLOR_RESET);
   }
 
   private padLine(text: string, width: number): string {

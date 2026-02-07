@@ -8,11 +8,11 @@ export class Mage extends Character {
     }
 
     override playTurn(fight: Fight): void {
-        const menu = new Menu(`Tour de ${this.getName()} - Choisis une action:`, [
-            "Attaquer",
-            "Sort magique",
-            "Objet",
-        ]);
+        const menu = new Menu(
+            `Tour de ${this.getName()} - Choisis une action:`,
+            ["Attaquer", "Sort magique", "Objet"],
+            Menu.COLOR_BLUE,
+        );
 
         const magicCost = 10;
         while (true) {

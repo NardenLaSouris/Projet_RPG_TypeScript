@@ -8,11 +8,11 @@ export class Priest extends Character {
     }
 
     override playTurn(fight: Fight): void {
-        const menu = new Menu(`Tour de ${this.getName()} - Choisis une action:`, [
-            "Attaquer",
-            "Soin",
-            "Objet",
-        ]);
+        const menu = new Menu(
+            `Tour de ${this.getName()} - Choisis une action:`,
+            ["Attaquer", "Soin", "Objet"],
+            Menu.COLOR_BLUE,
+        );
 
         while (true) {
             const choice = menu.ask();
