@@ -2,6 +2,19 @@
 
 Mini RPG tour par tour en TypeScript (Deno). Le joueur compose une equipe de 3 aventuriers, explore un donjon de 5 salles, et affronte un boss final.
 
+## Sommaire
+
+- [Fonctionnalites](#fonctionnalites)
+- [Deroulement d'une partie](#deroulement-dune-partie)
+- [Objets](#objets)
+- [Lancer le jeu](#lancer-le-jeu)
+- [Conseils d'utilisation](#conseils-dutilisation)
+- [Depannage](#depannage)
+- [Compatibilite](#compatibilite)
+- [FAQ rapide](#faq-rapide)
+- [Structure du projet](#structure-du-projet)
+- [Notes](#notes)
+
 ## Fonctionnalites
 
 - Choix de 3 aventuriers parmi 6 classes (Guerrier, Mage, Paladin, Barbare, Pretre, Voleur)
