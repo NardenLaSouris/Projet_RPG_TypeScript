@@ -18,7 +18,7 @@ export class Fight {
   }
 
   async start(): Promise<void> {
-    this.printBox("Combat", ["Debut du combat"], Fight.COLOR_YELLOW);
+    this.printBox("Combat", ["Combat begins"], Fight.COLOR_YELLOW);
     this.announceEnemies();
     this.logTeams();
     while (!this.isOver()) {
@@ -33,7 +33,7 @@ export class Fight {
       }
       this.index = (this.index + 1) % this.order.length;
     }
-    this.printBox("Combat", ["Combat termine"], Fight.COLOR_YELLOW);
+    this.printBox("Combat", ["Combat ends"], Fight.COLOR_YELLOW);
   }
 
   isOver(): boolean {
@@ -64,42 +64,42 @@ export class Fight {
     target: Character,
     damage: number,
     isCritical: boolean,
-    type: "physique" | "magique",
+    type: "physical" | "magical",
   ): void {
     const critText = isCritical ? " [CRIT]" : "";
     const attackerColor = this.isPlayer(attacker) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
     const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
-    const typeColor = type === "magique" ? Fight.COLOR_CYAN : Fight.COLOR_YELLOW;
+    const typeColor = type === "magical" ? Fight.COLOR_CYAN : Fight.COLOR_YELLOW;
     const critColor = isCritical ? Fight.COLOR_RED : Fight.COLOR_RESET;
     console.log(
       `> ${attackerColor}${attacker.getName()}${Fight.COLOR_RESET} -> ` +
         `${targetColor}${target.getName()}${Fight.COLOR_RESET} : ` +
-        `${damage} degats ${typeColor}${type}${Fight.COLOR_RESET}${critColor}${critText}${Fight.COLOR_RESET}`,
+        `${damage} damage ${typeColor}${type}${Fight.COLOR_RESET}${critColor}${critText}${Fight.COLOR_RESET}`,
     );
     const koText = target.isAlive() ? "" : " [KO]";
     console.log(
-      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} PV${koText}`,
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} HP${koText}`,
     );
   }
 
   logHeal(source: string, target: Character, amount: number): void {
     const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
     console.log(
-      `> ${Fight.COLOR_GREEN}${source}${Fight.COLOR_RESET} soigne ` +
-        `${targetColor}${target.getName()}${Fight.COLOR_RESET} de ${amount} PV`,
+      `> ${Fight.COLOR_GREEN}${source}${Fight.COLOR_RESET} heals ` +
+        `${targetColor}${target.getName()}${Fight.COLOR_RESET} for ${amount} HP`,
     );
     console.log(
-      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} PV`,
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentHp()} HP`,
     );
   }
 
   logMp(target: Character, amount: number): void {
     const targetColor = this.isPlayer(target) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
     console.log(
-      `> ${targetColor}${target.getName()}${Fight.COLOR_RESET} recupere ${amount} PM`,
+      `> ${targetColor}${target.getName()}${Fight.COLOR_RESET} recovers ${amount} MP`,
     );
     console.log(
-      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentMp()} PM`,
+      `  ${targetColor}${target.getName()}${Fight.COLOR_RESET} : ${target.getCurrentMp()} MP`,
     );
   }
 
@@ -108,12 +108,12 @@ export class Fight {
   }
 
   private logTurnStart(actor: Character): void {
-    const side = this.teamA.includes(actor) ? "Joueur" : "Ennemi";
+    const side = this.teamA.includes(actor) ? "Player" : "Enemy";
     const color = this.teamA.includes(actor) ? Fight.COLOR_BLUE : Fight.COLOR_RED;
     console.log("");
     console.log(color + "-".repeat(Fight.BOX_WIDTH) + Fight.COLOR_RESET);
     console.log(
-      color + `Tour ${this.turnCount} : ${actor.getName()} (${side})` + Fight.COLOR_RESET,
+      color + `Turn ${this.turnCount} : ${actor.getName()} (${side})` + Fight.COLOR_RESET,
     );
     this.turnCount += 1;
   }
@@ -121,13 +121,13 @@ export class Fight {
   private logTeams(): void {
     const playerLines = this.teamA.map(c => this.formatStatusLine(c));
     const enemyLines = this.teamB.map(c => this.formatStatusLine(c));
-    this.printBox("Joueurs", playerLines, Fight.COLOR_BLUE);
-    this.printBox("Ennemis", enemyLines, Fight.COLOR_RED);
+    this.printBox("Players", playerLines, Fight.COLOR_BLUE);
+    this.printBox("Enemies", enemyLines, Fight.COLOR_RED);
   }
 
   private announceEnemies(): void {
     const names = this.teamB.map(c => c.getName());
-    this.printBox("Rencontre", [`Ennemis: ${names.join(", ")}`], Fight.COLOR_YELLOW);
+    this.printBox("Encounter", [`Enemies: ${names.join(", ")}`], Fight.COLOR_YELLOW);
   }
 
   private delay(ms: number): Promise<void> {
@@ -136,9 +136,9 @@ export class Fight {
 
   private formatStatusLine(c: Character): string {
     const hpBar = this.renderBar(c.getCurrentHp(), c.getMaxHp());
-    const hpText = `${c.getCurrentHp()}/${c.getMaxHp()} PV`;
+    const hpText = `${c.getCurrentHp()}/${c.getMaxHp()} HP`;
     const mpText = c.getMaxMp() > 0
-      ? ` | ${this.renderBar(c.getCurrentMp(), c.getMaxMp())} ${c.getCurrentMp()}/${c.getMaxMp()} PM`
+      ? ` | ${this.renderBar(c.getCurrentMp(), c.getMaxMp())} ${c.getCurrentMp()}/${c.getMaxMp()} MP`
       : "";
     const status = c.isAlive() ? "" : " [KO]";
     return `${c.getName()} ${hpBar} ${hpText}${mpText}${status}`;

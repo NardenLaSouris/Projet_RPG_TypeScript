@@ -9,8 +9,8 @@ export class Mage extends Character {
 
     override playTurn(fight: Fight): void {
         const menu = new Menu(
-            `Tour de ${this.getName()} - Choisis une action:`,
-            ["Attaquer", "Sort magique", "Objet"],
+            `${this.getName()}'s turn - Choose an action:`,
+            ["Attack", "Magic Spell", "Item"],
             Menu.COLOR_BLUE,
         );
 
@@ -18,22 +18,22 @@ export class Mage extends Character {
         while (true) {
             const choice = menu.ask();
             if (choice === 0) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 const result = this.attackTarget(target);
-                fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+                fight.logAttack(this, target, result.damage, result.isCritical, "physical");
                 return;
             }
 
             if (choice === 1) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 if (!this.spendMp(magicCost)) {
-                    fight.logMessage("Pas assez de PM.");
+                    fight.logMessage("Not enough MP.");
                     continue;
                 }
                 const result = this.attackTargetMagical(target);
-                fight.logAttack(this, target, result.damage, false, "magique");
+                fight.logAttack(this, target, result.damage, false, "magical");
                 return;
             }
 

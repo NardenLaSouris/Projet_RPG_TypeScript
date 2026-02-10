@@ -14,7 +14,7 @@ import { Character } from "./adventurers/Character.ts";
 export class GameManager {
   async start(): Promise<void> {
     console.log("+--------------------------------------------+");
-    console.log("|                 DONJON RPG                |");
+    console.log("|                DUNGEON RPG                |");
     console.log("+--------------------------------------------+");
     const team = this.buildTeam();
 
@@ -33,13 +33,13 @@ export class GameManager {
     }
 
     console.log("+--------------------------------------------+");
-    console.log("|                 BOSS FINAL                |");
+    console.log("|                FINAL BOSS                 |");
     console.log("+--------------------------------------------+");
-    const boss = new Boss("Seigneur vampire", 20, 10, 15, 200, "Morsure");
+    const boss = new Boss("Vampire Lord", 20, 10, 15, 200, "Bite");
     await new Fight(team, [boss]).start();
 
     if (team.some(c => c.isAlive())) {
-      console.log("Victoire !");
+      console.log("Victory!");
     } else {
       console.log("Game Over");
     }
@@ -47,28 +47,28 @@ export class GameManager {
 
   private buildTeam(): Character[] {
     const roster: Array<{ label: string; create: (name: string, weapon: string) => Character }> = [
-      { label: "Guerrier", create: (name, weapon) => new Warrior(name, weapon) },
+      { label: "Warrior", create: (name, weapon) => new Warrior(name, weapon) },
       { label: "Mage", create: (name, weapon) => new Mage(name, weapon) },
       { label: "Paladin", create: (name, weapon) => new Paladin(name, weapon) },
-      { label: "Barbare", create: (name, weapon) => new Barbarian(name, weapon) },
-      { label: "Pretre", create: (name, weapon) => new Priest(name, weapon) },
-      { label: "Voleur", create: (name, weapon) => new Thief(name, weapon) },
+      { label: "Barbarian", create: (name, weapon) => new Barbarian(name, weapon) },
+      { label: "Priest", create: (name, weapon) => new Priest(name, weapon) },
+      { label: "Thief", create: (name, weapon) => new Thief(name, weapon) },
     ];
 
     const team: Character[] = [];
     for (let i = 0; i < 3; i++) {
-      const menu = new Menu(`Choisis l'aventurier #${i + 1}:`, roster.map(r => r.label));
+      const menu = new Menu(`Choose adventurer #${i + 1}:`, roster.map(r => r.label));
       const index = menu.ask();
       const pick = roster.splice(index, 1)[0];
-      const nameInput = prompt("Nom du personnage:");
-      const weaponInput = prompt("Arme du personnage:");
+      const nameInput = prompt("Character name:");
+      const weaponInput = prompt("Character weapon:");
       const name = nameInput && nameInput.trim().length > 0 ? nameInput.trim() : pick.label;
-      const weapon = weaponInput && weaponInput.trim().length > 0 ? weaponInput.trim() : "Arme";
+      const weapon = weaponInput && weaponInput.trim().length > 0 ? weaponInput.trim() : "Weapon";
       team.push(pick.create(name, weapon));
     }
 
     console.log("+--------------------------------------------+");
-    console.log("|              EQUIPE CHOISIE              |");
+    console.log("|               TEAM SELECTED              |");
     console.log("+--------------------------------------------+");
     team.forEach(member => {
       console.log(`\x1b[34m- ${member.getName()}\x1b[0m`);

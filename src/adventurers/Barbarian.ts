@@ -9,18 +9,18 @@ export class Barbarian extends Character {
 
     override playTurn(fight: Fight): void {
         const menu = new Menu(
-            `Tour de ${this.getName()} - Choisis une action:`,
-            ["Attaquer", "Berserk", "Objet"],
+            `${this.getName()}'s turn - Choose an action:`,
+            ["Attack", "Berserk", "Item"],
             Menu.COLOR_BLUE,
         );
 
         while (true) {
             const choice = menu.ask();
             if (choice === 0) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 const result = this.attackTarget(target);
-                fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+                fight.logAttack(this, target, result.damage, result.isCritical, "physical");
                 return;
             }
 
@@ -31,10 +31,10 @@ export class Barbarian extends Character {
                 const baseDamage = this.getPhysicalDamageAgainst(target);
                 const damage = Math.floor(baseDamage * 1.3);
                 const dealt = target.takeDamage(damage);
-                fight.logAttack(this, target, dealt, false, "physique");
+                fight.logAttack(this, target, dealt, false, "physical");
                 const selfDamage = Math.floor(this.getMaxHp() * 0.2);
                 this.takeDamage(selfDamage);
-                fight.logMessage(`${this.getName()} se blesse de ${selfDamage} PV`);
+                fight.logMessage(`${this.getName()} hurts themselves for ${selfDamage} HP`);
                 return;
             }
 

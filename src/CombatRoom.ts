@@ -14,10 +14,10 @@ export class CombatRoom extends Room {
 
   async enter(): Promise<boolean> {
     const pool: Array<{ label: string; create: (name: string) => Character }> = [
-      { label: "Gobelin", create: name => new Goblin(name) },
-      { label: "Loup", create: name => new Wolf(name) },
+      { label: "Goblin", create: name => new Goblin(name) },
+      { label: "Wolf", create: name => new Wolf(name) },
       { label: "Bandit", create: name => new Bandit(name) },
-      { label: "Chimere", create: name => new Chimera(name) },
+      { label: "Chimera", create: name => new Chimera(name) },
       { label: "Ahrimann", create: name => new Ahrimann(name) },
     ];
 

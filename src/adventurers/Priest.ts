@@ -9,26 +9,26 @@ export class Priest extends Character {
 
     override playTurn(fight: Fight): void {
         const menu = new Menu(
-            `Tour de ${this.getName()} - Choisis une action:`,
-            ["Attaquer", "Soin", "Objet"],
+            `${this.getName()}'s turn - Choose an action:`,
+            ["Attack", "Heal", "Item"],
             Menu.COLOR_BLUE,
         );
 
         while (true) {
             const choice = menu.ask();
             if (choice === 0) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 const result = this.attackTarget(target);
-                fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+                fight.logAttack(this, target, result.damage, result.isCritical, "physical");
                 return;
             }
 
             if (choice === 1) {
-                const ally = this.selectTarget(fight.getAllies(this), "Choisis un allie:");
+                const ally = this.selectTarget(fight.getAllies(this), "Choose an ally:");
                 if (!ally) return;
                 const healed = ally.heal(25);
-                fight.logHeal("Soin", ally, healed);
+                fight.logHeal("Heal", ally, healed);
                 return;
             }
 

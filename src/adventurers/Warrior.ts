@@ -9,18 +9,18 @@ export class Warrior extends Character {
 
     override playTurn(fight: Fight): void {
         const menu = new Menu(
-            `Tour de ${this.getName()} - Choisis une action:`,
-            ["Attaquer", "Objet"],
+            `${this.getName()}'s turn - Choose an action:`,
+            ["Attack", "Item"],
             Menu.COLOR_BLUE,
         );
 
         while (true) {
             const choice = menu.ask();
             if (choice === 0) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 const result = this.attackTarget(target);
-                fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+                fight.logAttack(this, target, result.damage, result.isCritical, "physical");
                 return;
             }
 

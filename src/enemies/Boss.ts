@@ -15,8 +15,8 @@ export class Boss extends Character {
 
     override isAlive(): boolean {
         if (this.currentHp <= 0) {
-            console.error(`${this.name} died in atrocious suffering, his guts emptying on the ground!`);
-        }    
+            console.error(`${this.name} has been defeated.`);
+        }
         return this.currentHp > 0;
     }
 
@@ -43,7 +43,7 @@ export class Boss extends Character {
             const target = this.chooseTarget(opponents);
             if (!target) return;
             const result = this.attackTarget(target);
-            fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+            fight.logAttack(this, target, result.damage, result.isCritical, "physical");
             return;
         }
 
@@ -51,7 +51,7 @@ export class Boss extends Character {
             const baseDamage = this.getPhysicalDamageAgainst(target);
             const damage = Math.floor(baseDamage * 0.4);
             const dealt = target.takeDamage(damage);
-            fight.logAttack(this, target, dealt, false, "physique");
+            fight.logAttack(this, target, dealt, false, "physical");
         });
     }
 

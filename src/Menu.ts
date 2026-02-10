@@ -30,7 +30,7 @@ export class Menu {
     const choice = Number(input) - 1;
 
     if (isNaN(choice) || choice < 0 || choice >= this.options.length) {
-      console.log("Choix invalide");
+      console.log("Invalid choice");
       return this.ask();
     }
     return choice;

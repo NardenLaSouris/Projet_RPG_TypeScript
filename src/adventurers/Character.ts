@@ -141,7 +141,7 @@ export class Character {
         if (opponents.length === 0) return;
         const target = opponents[Math.floor(Math.random() * opponents.length)];
         const result = this.attackTarget(target);
-        fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+        fight.logAttack(this, target, result.damage, result.isCritical, "physical");
     }
 
     protected getPhysicalDamageAgainst(target: Character): number {
@@ -156,7 +156,7 @@ export class Character {
         if (list.length === 0) return null;
         const options = list.map(c => {
             if (!includeStatus) return c.getName();
-            const status = c.isAlive() ? "PV" : "KO";
+            const status = c.isAlive() ? "HP" : "KO";
             const value = c.isAlive() ? c.getCurrentHp() : 0;
             return `${c.getName()} (${status}: ${value})`;
         });
@@ -168,29 +168,29 @@ export class Character {
         const inventory = Inventory.getInstance();
         const items = [
             "Potion",
-            "Morceau d'etoile",
-            "Demi-etoile",
+            "Star Shard",
+            "Half Star",
             "Ether",
         ];
         const available = items.filter(item => inventory.getCount(item) > 0);
 
         if (available.length === 0) {
-            fight.logMessage("Aucun objet disponible.");
+            fight.logMessage("No items available.");
             return false;
         }
 
         const options = available.map(item => `${item} x${inventory.getCount(item)}`);
         options.push("Retour");
-        const choice = new Menu("Choisis un objet:", options, Menu.COLOR_BLUE).ask();
+        const choice = new Menu("Choose an item:", options, Menu.COLOR_BLUE).ask();
         if (choice === options.length - 1) return false;
 
         const item = available[choice];
         if (item === "Ether") {
             const allies = fight.getAllies(this);
-            const target = this.selectTarget(allies, "Choisis une cible:");
+            const target = this.selectTarget(allies, "Choose a target:");
             if (!target) return false;
             if (target.getMaxMp() <= 0) {
-                fight.logMessage("Aucun PM a restaurer.");
+                fight.logMessage("No MP to restore.");
                 return false;
             }
             inventory.use(item);
@@ -200,7 +200,7 @@ export class Character {
         }
 
         const allies = fight.getAllies(this);
-        const target = this.selectTarget(allies, "Choisis une cible:");
+        const target = this.selectTarget(allies, "Choose a target:");
         if (!target) return false;
 
         inventory.use(item);
@@ -210,19 +210,19 @@ export class Character {
             return true;
         }
 
-        if (item === "Morceau d'etoile") {
+        if (item === "Star Shard") {
             const amount = target.isAlive()
                 ? target.heal(50)
                 : target.resurrect(20);
-            fight.logHeal("Morceau d'etoile", target, amount);
+            fight.logHeal("Star Shard", target, amount);
             return true;
         }
 
-        if (item === "Demi-etoile") {
+        if (item === "Half Star") {
             const amount = target.isAlive()
                 ? target.heal(100)
                 : target.resurrect(100);
-            fight.logHeal("Demi-etoile", target, amount);
+            fight.logHeal("Half Star", target, amount);
             return true;
         }
 

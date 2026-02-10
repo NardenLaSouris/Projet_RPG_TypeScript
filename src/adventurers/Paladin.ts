@@ -9,18 +9,18 @@ export class Paladin extends Character {
 
     override playTurn(fight: Fight): void {
         const menu = new Menu(
-            `Tour de ${this.getName()} - Choisis une action:`,
-            ["Attaquer", "Attaque sainte (zone)", "Objet"],
+            `${this.getName()}'s turn - Choose an action:`,
+            ["Attack", "Holy Attack (AoE)", "Item"],
             Menu.COLOR_BLUE,
         );
 
         while (true) {
             const choice = menu.ask();
             if (choice === 0) {
-                const target = this.selectTarget(fight.getOpponents(this), "Choisis une cible:");
+                const target = this.selectTarget(fight.getOpponents(this), "Choose a target:");
                 if (!target) return;
                 const result = this.attackTarget(target);
-                fight.logAttack(this, target, result.damage, result.isCritical, "physique");
+                fight.logAttack(this, target, result.damage, result.isCritical, "physical");
                 return;
             }
 
@@ -30,7 +30,7 @@ export class Paladin extends Character {
                     const baseDamage = this.getPhysicalDamageAgainst(target);
                     const damage = Math.floor(baseDamage * 0.4);
                     const dealt = target.takeDamage(damage);
-                    fight.logAttack(this, target, dealt, false, "physique");
+                    fight.logAttack(this, target, dealt, false, "physical");
                 });
                 return;
             }

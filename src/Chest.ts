@@ -6,16 +6,16 @@ export class Chest {
     const inventory = Inventory.getInstance();
 
     if (Math.random() < 0.3) {
-      console.log("Piège !");
+      console.log("Trap!");
       opener.takeDamage(10);
       return;
     }
 
-    const loot = ["Potion", "Ether", "Morceau d'etoile", "Demi-etoile"];
+    const loot = ["Potion", "Ether", "Star Shard", "Half Star"];
     for (let i = 0; i < 2; i++) {
       const item = loot[Math.floor(Math.random() * loot.length)];
       inventory.add(item);
-      console.log(`Objet obtenu : ${item}`);
+      console.log(`Item found: ${item}`);
     }
   }
 }

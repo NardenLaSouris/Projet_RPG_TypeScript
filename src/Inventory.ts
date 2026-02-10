@@ -5,8 +5,8 @@ export class Inventory {
   private constructor() {
     this.items.set("Potion", 2);
     this.items.set("Ether", 1);
-    this.items.set("Morceau d'etoile", 1);
-    this.items.set("Demi-etoile", 0);
+    this.items.set("Star Shard", 1);
+    this.items.set("Half Star", 0);
   }
 
   static getInstance(): Inventory {
