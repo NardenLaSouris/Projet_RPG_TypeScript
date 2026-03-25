@@ -153,5 +153,5 @@ Capture d'ecran de l'affichage en terminal (couleurs visibles) :
 
 ![Apercu terminal](docs/Terminal.png)
 
-Note : place la capture dans [docs/Terminal.png](docs/Terminal.png).
+
 
